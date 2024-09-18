@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Identifiants et Mots de Passe</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .management-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            border: none;
+            padding: 5px 10px;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="management-box">
+        <h2>Gestion des Identifiants et Mots de Passe</h2>
+        <input type="text" id="identifiant" placeholder="Nouvel Identifiant">
+        <input type="password" id="password" placeholder="Nouveau Mot de Passe">
+        <button onclick="addUser()">Ajouter</button>
+        <p id="error-message" class="error"></p>
+
+        <table id="user-table">
+            <thead>
+                <tr>
+                    <th>Identifiant</th>
+                    <th>Mot de Passe</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les utilisateurs seront affichés ici -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Charger les utilisateurs depuis le localStorage au démarrage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Afficher les utilisateurs existants
+        displayUsers();
+
+        function addUser() {
+            const identifiant = document.getElementById('identifiant').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (!identifiant || !password) {
+                errorMessage.textContent = 'Veuillez entrer un identifiant et un mot de passe.';
+                return;
+            }
+
+            // Vérification si l'identifiant existe déjà
+            const existingUser = users.find(user => user.identifiant === identifiant);
+            if (existingUser) {
+                errorMessage.textContent = 'Identifiant déjà existant.';
+                return;
+            }
+
+            // Ajouter l'utilisateur à la liste
+            users.push({ identifiant, password });
+
+            // Sauvegarder les utilisateurs dans le localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Réafficher les utilisateurs
+            displayUsers();
+
+            // Réinitialiser les champs
+            document.getElementById('identifiant').value = '';
+            document.getElementById('password').value = '';
+            errorMessage.textContent = '';
+        }
+
+        function deleteUser(index) {
+            // Supprimer l'utilisateur de la liste
+            users.splice(index, 1);
+
+            // Mettre à jour le localStorage après suppression
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Réafficher les utilisateurs
+            displayUsers();
+        }
+
+        function displayUsers() {
+            const userTable = document.querySelector('#user-table tbody');
+            userTable.innerHTML = '';
+
+            users.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.identifiant}</td>
+                    <td>${user.password}</td>
+                    <td><button class="delete-btn" onclick="deleteUser(${index})">Supprimer</button></td>
+                `;
+                userTable.appendChild(row);
+            });
+        }
+    </script>
+
+</body>
+</html>
