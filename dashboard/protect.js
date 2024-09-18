@@ -1,4 +1,4 @@
-// lock.js
+// protect.js
 
 document.addEventListener('DOMContentLoaded', function() {
     // Vérifier si l'utilisateur est connecté
