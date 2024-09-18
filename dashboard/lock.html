@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Protégée</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .protected-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 500px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="protected-box">
+        <h2>Bienvenue sur la page protégée !</h2>
+        <p>Contenu secret ou protégé ici.</p>
+    </div>
+
+    <script>
+        // Vérifier si l'utilisateur est connecté
+        if (!localStorage.getItem('loggedIn')) {
+            // Rediriger vers une page spécifique si non connecté
+            window.location.href = 'page-de-connexion.html'; // Remplacez par l'URL de la page souhaitée
+        }
+    </script>
+
+</body>
+</html>
