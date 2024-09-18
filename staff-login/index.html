@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Évaluation National</title>
+    <title>Connexion Staff - LMN Montage</title>
     <style>
         body {
             margin: 0;
@@ -87,6 +87,9 @@
             // Recherche de l'utilisateur correspondant
             const user = users.find(user => user.identifiant === identifiant && user.password === password);
 
+            if (user) {
+                // Redirection vers la page d'accueil après une connexion réussie
+                window.location.href = "www.youtube.com"; // Remplacez par la destination souhaitée
             } else {
                 errorMessage.textContent = 'Identifiant ou mot de passe incorrect.';
             }
