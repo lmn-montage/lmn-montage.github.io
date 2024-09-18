@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - LMN Montage</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Connexion</h2>
+        <input type="text" id="identifiant" placeholder="Identifiant">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <button onclick="validateLogin()">Se connecter</button>
+        <p id="error-message" class="error"></p>
+    </div>
+
+    <script>
+        function validateLogin() {
+            const identifiant = document.getElementById('identifiant').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            // Vérifier les entrées utilisateur
+            if (!identifiant || !password) {
+                errorMessage.textContent = 'Veuillez entrer un identifiant et un mot de passe.';
+                console.log('Identifiant ou mot de passe manquant');
+                return;
+            }
+
+            // Récupérer les utilisateurs depuis le localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            console.log('Utilisateurs chargés depuis localStorage:', users);
+
+            // Vérifier si l'utilisateur existe
+            const user = users.find(user => user.identifiant === identifiant && user.password === password);
+
+            if (user) {
+                console.log('Connexion réussie');
+                // Redirection vers une autre page après connexion réussie
+                window.location.href = "dashboard"; // Remplace par ta page de destination
+            } else {
+                console.log('Identifiant ou mot de passe incorrect');
+                errorMessage.textContent = 'Identifiant ou mot de passe incorrect.';
+            }
+        }
+    </script>
+
+</body>
+</html>
